@@ -1,13 +1,35 @@
-# Understanding Module Descriptors — Standalone HTML Course
+# Understanding Module Descriptors — Standalone HTML Course (SETU-branded)
 
 A clean, modern, self-paced e-learning course built from the *Understanding
 Module Descriptors* narration & build script (originally written for Articulate
-Rise). It is a fully **standalone** static web course — no build step, no server
-framework, and no external dependencies.
+Rise) and styled to the **SETU Online Course Brand Guide** (SETU Brand
+Guidelines v1, May 2022). It is a fully **standalone** static web course — no
+build step, no server framework, and no external dependencies (brand fonts are
+self-hosted).
 
 **Audience:** Industry-based part-time lecturers with high subject expertise but
 limited HE/quality-assurance background.
 **Runtime:** ~30 minutes, 7 sections.
+
+## SETU branding applied
+
+- **Primary colour** Slate Grey `#435465` — body text, headings, navigation, and
+  all structural UI (the common visual anchor throughout).
+- **Secondary palette as accents** each section is keyed to a different SETU
+  secondary colour (Barrow Blue, Sea Green, Heather Purple, Clover Pink),
+  cycling with Slate Grey as the anchor, exactly as the brand guide permits.
+  Semantic states reuse the palette too — **Grass Green** for correct answers,
+  **Sunset Red** for incorrect.
+- **Typography** headings in **DM Sans** (Bold), body in **Inter** — both
+  self-hosted as variable WOFF2 files in `assets/fonts/` (no CDN, works offline).
+- **Left-aligned** body content throughout, per the guide's accessibility note.
+- **SETU "U" motif** used as a recognisable graphic element — on the cover,
+  as section markers, and as watermarks behind statement/quote panels.
+- **Gradients used sparingly** — a single Slate → Barrow Blue gradient on the
+  hero cover only, paired with Slate Grey as the guide advises.
+- **Logo** placed top-left in the sidebar (and mobile top bar) with clear space,
+  at a legible size above the 60px minimum.
+- **8px spacing scale** and generous whitespace for a clean, spacious feel.
 
 ## What's included
 
@@ -57,25 +79,46 @@ an LMS file area, a shared drive, etc.).
 
 ```
 .
-├── index.html        # all course content + interactive markup
-├── css/styles.css    # design system, layout, component styles, light/dark
-├── js/app.js         # navigation, progress, and all interactions
-└── assets/           # (reserved for images if you replace placeholders)
+├── index.html                 # all course content + interactive markup
+├── css/styles.css             # SETU design tokens, layout, components, light/dark
+├── js/app.js                  # navigation, progress, and all interactions
+└── assets/
+    ├── setu-logo.svg          # PLACEHOLDER logo — replace with the official file
+    └── fonts/                 # self-hosted DM Sans + Inter (variable WOFF2)
 ```
 
 ## Placeholders / items needing your input
 
-The script flagged a few assets that need real-world sourcing. These are marked
-in-course with a *[Placeholder …]* note:
+Marked in-course with a *[Placeholder …]* note:
 
-- **Cover banner image** — currently a styled gradient; swap in a warm,
-  professional photo of a lecturer at a whiteboard / in a workshop.
+- **SETU logo** — `assets/setu-logo.svg` is a **placeholder** wordmark. The
+  official logo files were not present in the repo when this was built. Drop the
+  official **reversed (white)** SETU logo in at `assets/setu-logo.svg` (or update
+  the two `<img src>` references in `index.html`). It sits on the Slate Grey
+  sidebar, so a white/reversed version is needed; keep clear space around it and
+  a minimum size of 60px.
+- **Cover image** — currently the SETU U-motif over a Slate → Barrow Blue brand
+  gradient. Swap in an approved SETU photo or official gradient if preferred.
 - **Further-reading links** — the reference list in Section 6 is plain text;
-  add live hyperlinks to your institution's copies of the QQI, National Forum,
-  and ECTS documents.
-- **Hours-per-credit default** — set to 20 (common Irish HE figure). Adjust the
-  calculator's default in `js/app.js`/`index.html` if your institution uses 25.
+  add live hyperlinks to SETU/QQI/National Forum/ECTS documents.
+- **Hours-per-credit default** — set to 20 (common Irish HE figure); the
+  calculator slider allows 20–25.
+
+## Brand fonts
+
+DM Sans and Inter (both open-source, and both named in the SETU guide) are
+self-hosted as variable WOFF2 files under `assets/fonts/`, so the course renders
+with the correct brand typography **offline and with no external requests**. If
+you ever need additional weights/styles, add the WOFF2s and extend the
+`@font-face` block at the top of `css/styles.css`.
 
 All diagrams called for in the script (Bloom's pyramid, alignment triangle, NFQ
-ladder, ECTS infographic, annotated descriptor) are rendered as inline SVG, so
-they stay crisp and theme-aware without external image files.
+ladder, ECTS infographic, annotated descriptor) are rendered as inline SVG in
+the SETU palette, so they stay crisp and theme-aware without external images.
+
+## A note on dark mode
+
+The SETU guide describes a white-background identity. An optional, restrained
+**slate-based dark theme** is included as a learner accessibility feature (toggle
+in the sidebar). The default is the on-brand light theme; the dark theme keeps
+Slate Grey and the approved accents.

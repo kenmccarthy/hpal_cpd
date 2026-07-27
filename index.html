@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Understanding Module Descriptors — CPD Course</title>
-  <meta name="description" content="A practical guide to reading module descriptors for part-time and industry-based lecturers.">
+  <title>Understanding Module Descriptors — SETU CPD Course</title>
+  <meta name="description" content="A practical guide to reading module descriptors for part-time and industry-based lecturers. South East Technological University (SETU).">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📘</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 80'><path d='M18 6 V44 A32 32 0 0 0 82 44 V6' fill='none' stroke='%232AC5F4' stroke-width='26'/></svg>">
 </head>
 <body>
 <div class="app">
@@ -14,6 +14,7 @@
   <!-- ============================ SIDEBAR ============================ -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar__brand">
+      <img class="sidebar__logo" src="assets/setu-logo.svg" alt="SETU — South East Technological University">
       <p class="sidebar__kicker">CPD · Self-paced</p>
       <h1 class="sidebar__title">Understanding Module Descriptors</h1>
       <p class="sidebar__meta">⏱ ~30 minutes · 7 sections</p>
@@ -32,7 +33,7 @@
       <button class="sidebar__theme" id="themeBtnSide" type="button">
         <span id="themeIcon">◐</span> <span id="themeLabel">Toggle dark mode</span>
       </button>
-      <p style="margin:14px 0 0">A practical guide for part-time &amp; industry-based lecturers.</p>
+      <p style="margin:14px 0 0">South East Technological University · A practical guide for part-time &amp; industry-based lecturers.</p>
     </div>
   </aside>
   <div class="backdrop" id="backdrop"></div>
@@ -41,6 +42,7 @@
   <div class="main">
     <div class="topbar">
       <button class="icon-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      <img class="topbar__logo" src="assets/setu-logo.svg" alt="SETU">
       <span class="topbar__title" id="topTitle">Understanding Module Descriptors</span>
       <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">◐</button>
     </div>
@@ -50,17 +52,18 @@
       <!-- =================================================================
            SECTION 0 — WELCOME & ORIENTATION
       ================================================================== -->
-      <section class="lesson" data-lesson="0">
+      <section class="lesson" data-lesson="0" data-accent="barrow">
         <div class="cover">
           <div class="cover__img">
-            <span class="cover__badge">Continuing Professional Development</span>
+            <svg class="cover__u" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg>
+            <span class="cover__badge">SETU · Continuing Professional Development</span>
             <div class="cover__text">
               <h1>Understanding Module Descriptors</h1>
               <p>A practical guide for part-time and industry-based lecturers</p>
             </div>
           </div>
         </div>
-        <p class="placeholder-note">[Placeholder banner — replace with a warm, professional photo of a lecturer at a whiteboard or in a workshop setting.]</p>
+        <p class="placeholder-note">[Placeholder cover — the SETU U-shape motif and brand gradient stand in for a warm, professional photo of a lecturer at a whiteboard or workshop. Swap in an approved SETU image or gradient when available.]</p>
 
         <p class="lead">Welcome. If you're watching this, chances are you know your subject inside out — you've worked in the field, you've solved real problems, and you've been asked to bring that expertise into the classroom. What you might not have had much exposure to is the paperwork that sits behind every module you teach: the <strong>module descriptor</strong>.</p>
 
@@ -93,11 +96,11 @@
       <!-- =================================================================
            SECTION 1 — WHAT IS A MODULE DESCRIPTOR
       ================================================================== -->
-      <section class="lesson" data-lesson="1">
-        <span class="eyebrow">Section 1 · 5 min</span>
+      <section class="lesson" data-lesson="1" data-accent="seagreen">
+        <span class="eyebrow"><svg class="u-mark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg> Section 1 · 5 min</span>
         <h1>What is a module descriptor, and why it matters</h1>
 
-        <div class="statement">A module descriptor is not paperwork for its own sake — it's the blueprint for everything that happens in your classroom.</div>
+        <div class="statement"><svg class="u-watermark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg><span>A module descriptor is not paperwork for its own sake — it's the blueprint for everything that happens in your classroom.</span></div>
 
         <p>Let's start with a plain definition. A <strong>module descriptor</strong> is a formal, approved document that describes a single unit of study — a module — within a programme. It typically includes:</p>
 
@@ -119,13 +122,13 @@
             <defs>
               <style>
                 .doc-bg{fill:var(--bg);stroke:var(--line);stroke-width:1.5}
-                .doc-band{fill:var(--brand)}
+                .doc-band{fill:var(--slate)}
                 .doc-line{fill:var(--line-soft)}
-                .doc-hl{fill:var(--accent-soft)}
-                .lbl{fill:var(--brand-dark);font:600 12px var(--font)}
-                .lbl-a{fill:var(--accent);font:700 11px var(--font)}
-                .doc-t{fill:var(--ink);font:700 13px var(--font)}
-                .call{stroke:var(--brand);stroke-width:1.2;stroke-dasharray:3 3}
+                .doc-hl{fill:var(--accent-tint)}
+                .lbl{fill:var(--slate);font:600 12px var(--font-head)}
+                .lbl-a{fill:var(--accent-ink);font:700 11px var(--font-head)}
+                .doc-t{fill:var(--ink-strong);font:700 13px var(--font-head)}
+                .call{stroke:var(--slate);stroke-width:1.2;stroke-dasharray:3 3}
                 .call-a{stroke:var(--accent);stroke-width:1.2;stroke-dasharray:3 3}
               </style>
             </defs>
@@ -134,7 +137,7 @@
             <rect class="doc-band" x="200" y="20" width="240" height="46" rx="10"/>
             <rect class="doc-band" x="200" y="46" width="240" height="20"/>
             <text class="doc-t" x="216" y="42" fill="#fff">Module Descriptor</text>
-            <text x="216" y="58" fill="#dff1ef" style="font:11px var(--font)">DESC · 5 ECTS · Level 8</text>
+            <text x="216" y="58" fill="#dff1ef" style="font:11px var(--font-body)">DESC · 5 ECTS · Level 8</text>
             <!-- rows -->
             <rect class="doc-hl" x="216" y="82" width="208" height="30" rx="5"/>
             <text class="doc-t" x="224" y="101">Learning Outcomes</text>
@@ -150,7 +153,7 @@
             <rect class="doc-line" x="216" y="274" width="140" height="7" rx="3"/>
             <!-- callouts left -->
             <line class="call" x1="200" y1="44" x2="60" y2="44"/>
-            <circle cx="60" cy="44" r="3" fill="var(--brand)"/>
+            <circle cx="60" cy="44" r="3" fill="var(--slate)"/>
             <text class="lbl" x="16" y="40">Title, code</text>
             <text class="lbl" x="16" y="54">&amp; credits</text>
             <line class="call-a" x1="216" y1="97" x2="60" y2="120"/>
@@ -159,7 +162,7 @@
             <text class="lbl-a" x="16" y="130">must achieve</text>
             <!-- callouts right -->
             <line class="call" x1="440" y1="58" x2="580" y2="58"/>
-            <circle cx="580" cy="58" r="3" fill="var(--brand)"/>
+            <circle cx="580" cy="58" r="3" fill="var(--slate)"/>
             <text class="lbl" x="510" y="46">NFQ level</text>
             <text class="lbl" x="510" y="60">&amp; ECTS</text>
             <line class="call-a" x1="424" y1="237" x2="560" y2="237"/>
@@ -235,11 +238,11 @@
       <!-- =================================================================
            SECTION 2 — LEARNING OUTCOMES
       ================================================================== -->
-      <section class="lesson" data-lesson="2">
-        <span class="eyebrow">Section 2 · 7 min</span>
+      <section class="lesson" data-lesson="2" data-accent="heather">
+        <span class="eyebrow"><svg class="u-mark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg> Section 2 · 7 min</span>
         <h1>Learning outcomes: what they are and how they drive everything</h1>
 
-        <div class="statement">Learning outcomes are the engine of the module descriptor. Everything else — content, teaching methods, assessment — exists to serve them.</div>
+        <div class="statement"><svg class="u-watermark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg><span>Learning outcomes are the engine of the module descriptor. Everything else — content, teaching methods, assessment — exists to serve them.</span></div>
 
         <p>A <strong>learning outcome</strong> is a statement of what a student should know, understand, or be able to do by the end of a module — and be able to <em>demonstrate</em> it.</p>
         <p>Notice the emphasis: not what <em>you</em> will teach, but what the <em>student</em> will be able to do. This is a subtle but important shift for anyone coming from an industry training background, where content delivery is often the main focus.</p>
@@ -251,19 +254,19 @@
           <svg viewBox="0 0 640 96" role="img" aria-label="Learning outcome formula: action verb plus what the learner will do plus context or standard">
             <defs><style>
               .fx{rx:10;height:52}
-              .fx-t{font:700 15px var(--font);fill:#fff}
-              .fx-s{font:600 11px var(--font);fill:var(--ink-faint);text-anchor:middle}
-              .plus{font:700 22px var(--font);fill:var(--ink-faint);text-anchor:middle}
+              .fx-t{font:700 15px var(--font-head);fill:#fff}
+              .fx-s{font:600 11px var(--font-body);fill:var(--ink-muted);text-anchor:middle}
+              .plus{font:700 22px var(--font-head);fill:var(--ink-faint);text-anchor:middle}
             </style></defs>
-            <rect x="8" y="18" width="180" height="52" rx="10" fill="var(--brand)"/>
+            <rect x="8" y="18" width="180" height="52" rx="10" fill="var(--accent)"/>
             <text class="fx-t" x="98" y="49" text-anchor="middle">Action verb</text>
             <text class="fx-s" x="98" y="86">Evaluate…</text>
             <text class="plus" x="205" y="52">+</text>
-            <rect x="228" y="18" width="200" height="52" rx="10" fill="var(--brand-dark)"/>
+            <rect x="228" y="18" width="200" height="52" rx="10" fill="var(--slate)"/>
             <text class="fx-t" x="328" y="45" text-anchor="middle">What the learner</text>
             <text class="fx-t" x="328" y="61" text-anchor="middle" style="font-size:13px">will do</text>
             <text class="plus" x="445" y="52">+</text>
-            <rect x="468" y="18" width="164" height="52" rx="10" fill="var(--accent)"/>
+            <rect x="468" y="18" width="164" height="52" rx="10" fill="var(--slate-dark)"/>
             <text class="fx-t" x="550" y="45" text-anchor="middle">Context or</text>
             <text class="fx-t" x="550" y="61" text-anchor="middle" style="font-size:13px">standard</text>
           </svg>
@@ -280,17 +283,17 @@
         <figure class="figure">
           <svg viewBox="0 0 640 340" role="img" aria-label="Bloom's Taxonomy pyramid from Remember at the base to Create at the top, with example verbs">
             <defs><style>
-              .bt{font:700 15px var(--font);fill:#fff}
-              .bv{font:12px var(--font);fill:rgba(255,255,255,.9)}
-              .bside{font:700 11px var(--font);fill:var(--ink-faint)}
+              .bt{font:700 15px var(--font-head);fill:#fff}
+              .bv{font:12px var(--font-body);fill:rgba(255,255,255,.9)}
+              .bside{font:700 11px var(--font-head);fill:var(--ink-muted)}
             </style></defs>
-            <!-- 6 tiers as trapezoids, base wide -->
-            <polygon points="60,300 580,300 520,258 120,258" fill="#0d5450"/>
-            <polygon points="120,256 520,256 470,214 170,214" fill="#14746f"/>
-            <polygon points="170,212 470,212 425,170 215,170" fill="#2b8f89"/>
-            <polygon points="215,168 425,168 385,126 255,126" fill="#c9772f"/>
-            <polygon points="255,124 385,124 350,82 290,82" fill="#e08a3c"/>
-            <polygon points="290,80 350,80 320,40 320,40" fill="#efaa5f"/>
+            <!-- 6 tiers as trapezoids, base wide — SETU palette, lower to higher order -->
+            <polygon points="60,300 580,300 520,258 120,258" fill="#435465"/>
+            <polygon points="120,256 520,256 470,214 170,214" fill="#378b84"/>
+            <polygon points="170,212 470,212 425,170 215,170" fill="#0062af"/>
+            <polygon points="215,168 425,168 385,126 255,126" fill="#5f5aa8"/>
+            <polygon points="255,124 385,124 350,82 290,82" fill="#a752a0"/>
+            <polygon points="290,80 350,80 320,40 320,40" fill="#e74751"/>
             <text class="bt" x="320" y="285" text-anchor="middle">Remember</text>
             <text class="bv" x="320" y="299" text-anchor="middle" style="fill:rgba(255,255,255,.85);font-size:11px">list · define</text>
             <text class="bt" x="320" y="240" text-anchor="middle">Understand</text>
@@ -324,8 +327,8 @@
         <figure class="figure figure--framed">
           <svg viewBox="0 0 640 300" role="img" aria-label="Constructive alignment triangle linking learning outcomes, teaching activities, and assessment">
             <defs><style>
-              .al-node{fill:var(--bg);stroke-width:2}
-              .al-t{font:700 13px var(--font);fill:var(--ink);text-anchor:middle}
+              .al-node{fill:var(--bg);stroke-width:2.5}
+              .al-t{font:700 13px var(--font-head);fill:var(--ink-strong);text-anchor:middle}
               .al-arrow{stroke:var(--ink-faint);stroke-width:1.6;stroke-dasharray:5 4;fill:none}
             </style>
             <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="var(--ink-faint)"/></marker>
@@ -336,17 +339,17 @@
             <line class="al-arrow" x1="170" y1="235" x2="470" y2="235" marker-end="url(#ar)" marker-start="url(#ar)"/>
             <!-- nodes -->
             <g>
-              <circle class="al-node" cx="320" cy="55" r="46" stroke="var(--brand)"/>
+              <circle class="al-node" cx="320" cy="55" r="46" stroke="var(--accent)"/>
               <text class="al-t" x="320" y="50">Learning</text>
               <text class="al-t" x="320" y="66">Outcomes</text>
             </g>
             <g>
-              <circle class="al-node" cx="130" cy="240" r="46" stroke="var(--accent)"/>
+              <circle class="al-node" cx="130" cy="240" r="46" stroke="var(--slate)"/>
               <text class="al-t" x="130" y="235">Teaching &amp;</text>
               <text class="al-t" x="130" y="251">Activities</text>
             </g>
             <g>
-              <circle class="al-node" cx="510" cy="240" r="46" stroke="var(--brand-dark)"/>
+              <circle class="al-node" cx="510" cy="240" r="46" stroke="var(--accent-ink)"/>
               <text class="al-t" x="510" y="244">Assessment</text>
             </g>
           </svg>
@@ -439,11 +442,11 @@
       <!-- =================================================================
            SECTION 3 — NFQ LEVELS
       ================================================================== -->
-      <section class="lesson" data-lesson="3">
-        <span class="eyebrow">Section 3 · 7 min</span>
+      <section class="lesson" data-lesson="3" data-accent="clover">
+        <span class="eyebrow"><svg class="u-mark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg> Section 3 · 7 min</span>
         <h1>NFQ levels: setting the standard</h1>
 
-        <div class="statement">The NFQ level tells you how much independence, complexity, and critical thinking to expect — and to demand — from your students.</div>
+        <div class="statement"><svg class="u-watermark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg><span>The NFQ level tells you how much independence, complexity, and critical thinking to expect — and to demand — from your students.</span></div>
 
         <p>Every module descriptor states an <strong>NFQ level</strong> — a reference to Ireland's National Framework of Qualifications, maintained by <strong>QQI</strong> (Quality and Qualifications Ireland). The NFQ has 10 levels, from Level 1 (basic) through to Level 10 (doctoral).</p>
 
@@ -452,10 +455,10 @@
           <svg viewBox="0 0 640 250" role="img" aria-label="NFQ ladder showing levels 1 to 10 with common qualification types at the higher levels">
             <defs><style>
               .rung{fill:var(--bg-sub);stroke:var(--line)}
-              .rung-hi{fill:var(--brand-light);stroke:var(--brand)}
-              .rn{font:700 13px var(--font);fill:var(--brand-dark);text-anchor:middle}
-              .rq{font:12px var(--font);fill:var(--ink-soft)}
-              .rq-b{font:700 12px var(--font);fill:var(--ink)}
+              .rung-hi{fill:var(--accent-tint);stroke:var(--accent)}
+              .rn{font:700 13px var(--font-head);fill:var(--accent-ink);text-anchor:middle}
+              .rq{font:12px var(--font-body);fill:var(--ink-soft)}
+              .rq-b{font:700 12px var(--font-head);fill:var(--ink-strong)}
             </style></defs>
             <!-- ascending bars -->
             <g>
@@ -476,8 +479,8 @@
             <text class="rq-b" x="410" y="162">8 · Honours Bachelor Degree</text>
             <text class="rq-b" x="410" y="184">9 · Master's Degree</text>
             <text class="rq" x="410" y="206">10 · Doctoral Degree</text>
-            <text class="rq" x="410" y="52" style="fill:var(--brand);font-weight:700">Most part-time /</text>
-            <text class="rq" x="410" y="70" style="fill:var(--brand);font-weight:700">industry teaching sits 6–9</text>
+            <text class="rq" x="410" y="52" style="fill:var(--accent-ink);font-weight:700">Most part-time /</text>
+            <text class="rq" x="410" y="70" style="fill:var(--accent-ink);font-weight:700">industry teaching sits 6–9</text>
           </svg>
           <figcaption>The NFQ ladder — most modules taught by part-time industry lecturers sit between Levels 6 and 9.</figcaption>
         </figure>
@@ -569,11 +572,11 @@
       <!-- =================================================================
            SECTION 4 — ECTS CREDITS
       ================================================================== -->
-      <section class="lesson" data-lesson="4">
-        <span class="eyebrow">Section 4 · 6.5 min</span>
+      <section class="lesson" data-lesson="4" data-accent="barrow">
+        <span class="eyebrow"><svg class="u-mark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg> Section 4 · 6.5 min</span>
         <h1>ECTS credits and student workload</h1>
 
-        <div class="statement">Credits are not a measure of how much you teach. They're a measure of how much time a typical student should spend learning.</div>
+        <div class="statement"><svg class="u-watermark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg><span>Credits are not a measure of how much you teach. They're a measure of how much time a typical student should spend learning.</span></div>
 
         <p>Every module carries a credit value, usually expressed in <strong>ECTS</strong> — the European Credit Transfer and Accumulation System. It's a European-wide system designed to make student workload comparable and transferable across institutions and countries.</p>
 
@@ -686,8 +689,8 @@
       <!-- =================================================================
            SECTION 5 — BRINGING IT TOGETHER
       ================================================================== -->
-      <section class="lesson" data-lesson="5">
-        <span class="eyebrow">Section 5 · 2 min</span>
+      <section class="lesson" data-lesson="5" data-accent="seagreen">
+        <span class="eyebrow"><svg class="u-mark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg> Section 5 · 2 min</span>
         <h1>Bringing it together: reading a descriptor in practice</h1>
 
         <p class="lead">Let's put it all together. When you next open a module descriptor, read it with these four questions in mind. Expand each for a practical tip you can apply when planning a class.</p>
@@ -756,11 +759,11 @@
       <!-- =================================================================
            SECTION 6 — SUMMARY & FINAL QUIZ
       ================================================================== -->
-      <section class="lesson" data-lesson="6">
-        <span class="eyebrow">Section 6 · Summary &amp; assessment</span>
+      <section class="lesson" data-lesson="6" data-accent="heather">
+        <span class="eyebrow"><svg class="u-mark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg> Section 6 · Summary &amp; assessment</span>
         <h1>Summary, final knowledge check &amp; reflection</h1>
 
-        <div class="statement">The module descriptor is your map. Learning outcomes are your destination. NFQ level sets your altitude. ECTS credits tell you how far the journey should take.</div>
+        <div class="statement"><svg class="u-watermark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg><span>The module descriptor is your map. Learning outcomes are your destination. NFQ level sets your altitude. ECTS credits tell you how far the journey should take.</span></div>
 
         <h2>Let's recap</h2>
         <div class="deflist">
@@ -864,6 +867,7 @@
 
         <!-- Completion -->
         <div class="complete">
+          <svg class="u-watermark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg>
           <div class="complete__badge">🎓</div>
           <h2>That's it — you're done.</h2>
           <p>You now have a working method for reading any module descriptor with confidence. This isn't about ticking a compliance box; it's a genuinely useful planning tool that will save you time and help your students succeed.</p>
