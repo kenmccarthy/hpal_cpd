@@ -83,20 +83,25 @@ an LMS file area, a shared drive, etc.).
 ├── css/styles.css             # SETU design tokens, layout, components, light/dark
 ├── js/app.js                  # navigation, progress, and all interactions
 └── assets/
-    ├── setu-logo.svg          # PLACEHOLDER logo — replace with the official file
+    ├── MONO_WHITE.png         # official SETU reversed (white) logo — used in the UI
+    ├── MONO_BLACK.png         # official SETU mono-black logo (for light backgrounds)
+    ├── RGB.png                # official SETU full-colour logo
     └── fonts/                 # self-hosted DM Sans + Inter (variable WOFF2)
 ```
+
+## Logos
+
+The official SETU logo files are used directly. The interface shows
+`assets/MONO_WHITE.png` (the reversed/white lockup) in the sidebar and mobile
+top bar, both of which sit on Slate Grey. `MONO_BLACK.png` and `RGB.png` are
+kept in `assets/` for use on light backgrounds (e.g. print, certificates, or a
+light header if you add one). Clear space is preserved around the logo and it is
+displayed well above the 60px minimum.
 
 ## Placeholders / items needing your input
 
 Marked in-course with a *[Placeholder …]* note:
 
-- **SETU logo** — `assets/setu-logo.svg` is a **placeholder** wordmark. The
-  official logo files were not present in the repo when this was built. Drop the
-  official **reversed (white)** SETU logo in at `assets/setu-logo.svg` (or update
-  the two `<img src>` references in `index.html`). It sits on the Slate Grey
-  sidebar, so a white/reversed version is needed; keep clear space around it and
-  a minimum size of 60px.
 - **Cover image** — currently the SETU U-motif over a Slate → Barrow Blue brand
   gradient. Swap in an approved SETU photo or official gradient if preferred.
 - **Further-reading links** — the reference list in Section 6 is plain text;

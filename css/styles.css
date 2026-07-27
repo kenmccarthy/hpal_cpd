@@ -142,8 +142,9 @@ button { font-family: inherit; }
 .sidebar__brand {
   padding: 26px 24px 20px; border-bottom: 1px solid rgba(255,255,255,.1);
 }
-/* SETU logo — min screen size 60px; clearance kept clear of other elements */
-.sidebar__logo { display: block; height: 46px; width: auto; margin-bottom: 18px; }
+/* SETU logo — reversed (white) lockup on the Slate Grey sidebar.
+   Sized above the 60px minimum with clear space around it. */
+.sidebar__logo { display: block; width: 152px; height: auto; margin-bottom: 20px; }
 .sidebar__kicker {
   font-family: var(--font-head);
   font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
@@ -211,7 +212,7 @@ button { font-family: inherit; }
   background: var(--slate); border-bottom: 1px solid rgba(255,255,255,.1);
   position: sticky; top: 0; z-index: 30;
 }
-.topbar__logo { height: 30px; width: auto; }
+.topbar__logo { width: 74px; height: auto; }
 .topbar__title { font-family: var(--font-head); font-weight: 700; font-size: 15px; flex: 1; color: #fff; }
 .icon-btn {
   border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.08); color: #fff;
@@ -571,6 +572,9 @@ button { font-family: inherit; }
   .deflist__row { grid-template-columns: 1fr; gap: 4px; }
   .statement { font-size: 20px; padding: 26px 24px; }
   .lesson-nav .btn span.long { display: none; }
+  /* Cover: give the badge and title room so they don't overlap */
+  .cover__img { aspect-ratio: auto; min-height: 240px; padding: 64px 22px 24px; }
+  .cover__badge { top: 20px; left: 22px; right: 22px; font-size: 10px; letter-spacing: .07em; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
