@@ -117,7 +117,7 @@
         <p>You might be handed this document on day one and think of it as a formality. In practice, it's the <strong>single most important document for planning your teaching</strong>, because it has already been through a quality assurance process — reviewed, validated, and approved by the institution and, in many cases, external panels.</p>
 
         <!-- Annotated descriptor figure -->
-        <figure class="figure figure--framed">
+        <figure class="figure figure--framed fig-descriptor">
           <svg viewBox="0 0 640 360" role="img" aria-label="Annotated module descriptor template with labelled sections">
             <defs>
               <style>
@@ -172,6 +172,23 @@
           </svg>
           <figcaption>Every descriptor follows the same skeleton — learn to read it once, and you can read them all.</figcaption>
         </figure>
+
+        <!-- Interactive descriptor explorer -->
+        <div class="widget anatomy" data-anatomy>
+          <div class="kc__tag">🔍 Explore · Anatomy of a descriptor</div>
+          <p style="color:var(--ink-soft);margin-top:0">Select a part of the descriptor to see what it's telling you — and why it matters for your teaching.</p>
+          <div class="anatomy__grid">
+            <div class="anatomy__tabs" role="tablist">
+              <button class="anatomy__tab is-active" type="button" data-part="title">Title, code &amp; credits</button>
+              <button class="anatomy__tab" type="button" data-part="nfq">NFQ level</button>
+              <button class="anatomy__tab" type="button" data-part="outcomes">Learning outcomes</button>
+              <button class="anatomy__tab" type="button" data-part="content">Indicative content</button>
+              <button class="anatomy__tab" type="button" data-part="assessment">Assessment strategy</button>
+            </div>
+            <div class="anatomy__detail" id="anatomyDetail"></div>
+          </div>
+        </div>
+
 
         <h2>Why it matters</h2>
         <div class="callout callout--why">
@@ -250,7 +267,7 @@
         <h2>How learning outcomes are written</h2>
         <p>Well-written learning outcomes usually follow a simple structure:</p>
 
-        <figure class="figure figure--framed">
+        <figure class="figure figure--framed fig-formula">
           <svg viewBox="0 0 640 96" role="img" aria-label="Learning outcome formula: action verb plus what the learner will do plus context or standard">
             <defs><style>
               .fx{rx:10;height:52}
@@ -280,7 +297,7 @@
         <p>The <strong>action verb</strong> matters enormously. It signals the level of cognitive demand expected — and this is where <strong>Bloom's Taxonomy</strong> comes in.</p>
 
         <!-- Bloom's pyramid -->
-        <figure class="figure">
+        <figure class="figure fig-pyramid">
           <svg viewBox="0 0 640 340" role="img" aria-label="Bloom's Taxonomy pyramid from Remember at the base to Create at the top, with example verbs">
             <defs><style>
               .bt{font:700 15px var(--font-head);fill:#fff}
@@ -320,11 +337,42 @@
         </ul>
         <p>If a learning outcome uses the verb "evaluate," your teaching <em>and</em> your assessment both need to give students a genuine opportunity to practise evaluating — not just recall facts. A multiple-choice test alone wouldn't cut it.</p>
 
+
+        <!-- Build a learning outcome -->
+        <div class="widget builder" data-builder>
+          <div class="kc__tag">🛠 Try it · Build a learning outcome</div>
+          <p style="color:var(--ink-soft);margin-top:0">Pick a verb, an object and a standard. The outcome assembles below — and the badge shows the Bloom's level the verb implies.</p>
+          <div class="builder__row">
+            <select class="builder__sel" id="bVerb" aria-label="Action verb">
+              <optgroup label="Remember"><option data-level="1">Define</option><option data-level="1">List</option></optgroup>
+              <optgroup label="Understand"><option data-level="2">Describe</option><option data-level="2">Explain</option></optgroup>
+              <optgroup label="Apply"><option data-level="3">Apply</option><option data-level="3">Demonstrate</option></optgroup>
+              <optgroup label="Analyse"><option data-level="4">Compare</option><option data-level="4">Analyse</option></optgroup>
+              <optgroup label="Evaluate"><option data-level="5">Evaluate</option><option data-level="5">Justify</option></optgroup>
+              <optgroup label="Create"><option data-level="6" selected>Design</option><option data-level="6">Develop</option></optgroup>
+            </select>
+            <select class="builder__sel" id="bObject" aria-label="What the learner works on">
+              <option>a relational database</option><option>a marketing plan</option>
+              <option>a bridge design</option><option>a patient care plan</option><option>a project budget</option>
+            </select>
+            <select class="builder__sel" id="bStandard" aria-label="Context or standard">
+              <option>to meet a specified business requirement</option>
+              <option>against current industry standards</option>
+              <option>for a given real-world scenario</option>
+              <option>to a professional code of practice</option>
+            </select>
+          </div>
+          <div class="builder__out">
+            <span class="builder__level" id="bLevel" data-level="6">Create</span>
+            <p class="builder__sentence" id="bSentence"></p>
+          </div>
+        </div>
+
         <h2>Why this matters for you: constructive alignment</h2>
         <p>This is where John Biggs' concept of <strong>constructive alignment</strong> becomes essential. Biggs argued that good teaching happens when three things line up:</p>
 
         <!-- Alignment triangle -->
-        <figure class="figure figure--framed">
+        <figure class="figure figure--framed fig-triangle">
           <svg viewBox="0 0 640 300" role="img" aria-label="Constructive alignment triangle linking learning outcomes, teaching activities, and assessment">
             <defs><style>
               .al-node{fill:var(--bg);stroke-width:2.5}
@@ -357,6 +405,19 @@
         </figure>
 
         <p>If your assessment asks students to <em>analyse</em> a case study, but your teaching only ever covered <em>remembering</em> definitions, there's a misalignment — and students will struggle, often unfairly, through no fault of their own.</p>
+
+
+        <!-- Alignment checker -->
+        <div class="widget align" data-align>
+          <div class="kc__tag">⚖ Try it · Check the alignment</div>
+          <p style="color:var(--ink-soft);margin-top:0">Constructive alignment means all three should target the same level of thinking. Set each and see whether they line up.</p>
+          <div class="align__rows">
+            <label class="align__row"><span>Learning outcome</span><select id="alOutcome" class="builder__sel"></select></label>
+            <label class="align__row"><span>Teaching activity</span><select id="alTeach" class="builder__sel"></select></label>
+            <label class="align__row"><span>Assessment task</span><select id="alAssess" class="builder__sel"></select></label>
+          </div>
+          <div class="align__verdict" id="alignVerdict"></div>
+        </div>
 
         <!-- Matching interaction -->
         <div class="match" data-match="bloom">
@@ -451,7 +512,7 @@
         <p>Every module descriptor states an <strong>NFQ level</strong> — a reference to Ireland's National Framework of Qualifications, maintained by <strong>QQI</strong> (Quality and Qualifications Ireland). The NFQ has 10 levels, from Level 1 (basic) through to Level 10 (doctoral).</p>
 
         <!-- NFQ ladder -->
-        <figure class="figure figure--framed">
+        <figure class="figure figure--framed fig-ladder">
           <svg viewBox="0 0 640 250" role="img" aria-label="NFQ ladder showing levels 1 to 10 with common qualification types at the higher levels">
             <defs><style>
               .rung{fill:var(--bg-sub);stroke:var(--line)}
@@ -497,6 +558,10 @@
 
         <!-- Tabs -->
         <div class="tabs" data-tabs="nfq">
+<div class="tabs__scrub">
+            <input type="range" id="nfqScrub" min="6" max="9" value="6" step="1" aria-label="Slide across NFQ levels 6 to 9">
+            <div class="tabs__scrub-ticks"><span>6</span><span>7</span><span>8</span><span>9</span></div>
+          </div>
           <div class="tabs__list" role="tablist">
             <button class="tabs__btn is-active" data-tab="6" role="tab">Level 6</button>
             <button class="tabs__btn" data-tab="7" role="tab">Level 7</button>
@@ -526,6 +591,30 @@
             <h4>Original, self-directed problem-solving</h4>
             <p>Students operate at the edge of current knowledge, dealing with ambiguity and incomplete information. They can design original solutions and defend them with rigour.</p>
             <div class="tabs__example"><span>Example task</span>Design and justify an original solution to an ambiguous, open-ended industry problem.</div>
+          </div>
+        </div>
+
+
+        <!-- Pitch check -->
+        <div class="widget pitch" data-pitch>
+          <div class="kc__tag">🎚 Try it · Pitch check</div>
+          <p style="color:var(--ink-soft);margin-top:0">Read each task and choose the NFQ level it best matches.</p>
+          <div class="pitch__cards">
+            <div class="pitch__card" data-answer="6">
+              <p>"Follow a defined process to troubleshoot a fault in a piece of equipment."</p>
+              <div class="pitch__opts"><button type="button" data-lvl="6">L6</button><button type="button" data-lvl="7">L7</button><button type="button" data-lvl="8">L8</button><button type="button" data-lvl="9">L9</button></div>
+              <div class="pitch__fb"></div>
+            </div>
+            <div class="pitch__card" data-answer="8">
+              <p>"Critically analyse competing solutions to a problem and justify a recommended approach."</p>
+              <div class="pitch__opts"><button type="button" data-lvl="6">L6</button><button type="button" data-lvl="7">L7</button><button type="button" data-lvl="8">L8</button><button type="button" data-lvl="9">L9</button></div>
+              <div class="pitch__fb"></div>
+            </div>
+            <div class="pitch__card" data-answer="9">
+              <p>"Design and justify an original solution to an ambiguous, open-ended industry problem."</p>
+              <div class="pitch__opts"><button type="button" data-lvl="6">L6</button><button type="button" data-lvl="7">L7</button><button type="button" data-lvl="8">L8</button><button type="button" data-lvl="9">L9</button></div>
+              <div class="pitch__fb"></div>
+            </div>
           </div>
         </div>
 
@@ -629,7 +718,30 @@
               <div class="calc__lbl">Expected independent study (hours)</div>
             </div>
           </div>
+          <div class="split" id="ectsSplit" role="img" aria-label="How total effort splits between contact time and independent study">
+            <div class="split__seg split__seg--contact" id="splitContact"><span>Contact</span></div>
+            <div class="split__seg split__seg--indep" id="splitIndep"><span>Independent study</span></div>
+          </div>
           <p class="calc__note" id="calcNote">5 credits × 20 hours = 100 total hours, minus 24 contact hours = 76 hours on their own.</p>
+        </div>
+
+        <!-- Workload budget — applied exercise -->
+        <div class="widget budget" data-budget>
+          <div class="kc__tag">🧩 Try it · Build an assessment plan</div>
+          <p style="color:var(--ink-soft);margin-top:0">You're teaching a <strong>5-credit module</strong> (100 hours total, 24 contact). That leaves an <strong>independent-study budget of 76 hours</strong>. Toggle assessment tasks on and off and watch the budget — keep the total realistic.</p>
+          <div class="budget__grid">
+            <button class="budget__item" type="button" data-hours="15">2,000-word essay <b>15h</b></button>
+            <button class="budget__item" type="button" data-hours="12">Weekly quizzes ×12 <b>12h</b></button>
+            <button class="budget__item" type="button" data-hours="20">Group project <b>20h</b></button>
+            <button class="budget__item" type="button" data-hours="25">Set reading &amp; prep <b>25h</b></button>
+            <button class="budget__item" type="button" data-hours="18">Exam revision <b>18h</b></button>
+            <button class="budget__item" type="button" data-hours="10">Reflective journal <b>10h</b></button>
+          </div>
+          <div class="budget__bar" aria-hidden="true"><div class="budget__fill" id="budgetFill"></div></div>
+          <div class="budget__readout">
+            <span id="budgetUsed">0 h</span> of <span>76 h</span> used
+            <span class="budget__status" id="budgetStatus"></span>
+          </div>
         </div>
 
         <h2>Why this matters for you as a teacher</h2>
@@ -750,6 +862,22 @@
           </div>
         </div>
 
+        <!-- Readiness checklist -->
+        <div class="widget readiness" data-readiness>
+          <div class="kc__tag">🎯 Your descriptor-readiness</div>
+          <p style="color:var(--ink-soft);margin-top:0">Tick the ones you could confidently do right now for a module you teach.</p>
+          <div class="readiness__grid">
+            <label class="check"><input type="checkbox"> <span>Read the outcome verbs and name their Bloom's level</span></label>
+            <label class="check"><input type="checkbox"> <span>Show my teaching builds toward those outcomes</span></label>
+            <label class="check"><input type="checkbox"> <span>Pitch tasks to the module's NFQ level</span></label>
+            <label class="check"><input type="checkbox"> <span>Check assessment load fits the ECTS hours</span></label>
+          </div>
+          <div class="readiness__meter">
+            <div class="readiness__ring" id="readyRing"><span id="readyScore">0/4</span></div>
+            <p class="readiness__msg" id="readyMsg">Tick what you're confident about to see your readiness.</p>
+          </div>
+        </div>
+
         <div class="lesson-nav">
           <button class="btn btn--ghost" data-prev><span aria-hidden="true">←</span> <span class="long">ECTS credits</span></button>
           <button class="btn btn--primary" data-next><span class="long">Summary &amp; final quiz</span> <span aria-hidden="true">→</span></button>
@@ -865,6 +993,20 @@
         </ul>
         <p class="placeholder-note">[Add live hyperlinks to your institution's copies of these documents before publishing.]</p>
 
+        <!-- Progress dashboard -->
+        <div class="widget dashboard" data-dashboard>
+          <div class="kc__tag">📊 Your progress summary</div>
+          <div class="dashboard__tiles">
+            <div class="dash-tile"><div class="dash-num" id="dashSections">0/7</div><div class="dash-lbl">Sections viewed</div></div>
+            <div class="dash-tile"><div class="dash-num" id="dashQuiz">0/4</div><div class="dash-lbl">Final quiz</div></div>
+            <div class="dash-tile"><div class="dash-num" id="dashActs">0/8</div><div class="dash-lbl">Activities explored</div></div>
+          </div>
+          <div class="dashboard__status" id="dashStatus"></div>
+          <div class="dashboard__actions">
+            <button class="btn btn--sm" id="exportNotes" type="button">⬇ Export my reflection notes</button>
+          </div>
+        </div>
+
         <!-- Completion -->
         <div class="complete">
           <svg class="u-watermark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg>
@@ -887,6 +1029,13 @@
   </div><!-- /main -->
 </div><!-- /app -->
 
+<script src="js/core.js"></script>
+<script src="js/scorm.js"></script>
+<script src="js/analytics.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/confetti.js"></script>
+<script src="js/interactions.js"></script>
+<script src="js/dashboard.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

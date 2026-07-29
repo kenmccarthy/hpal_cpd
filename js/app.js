@@ -1,38 +1,19 @@
 /* ==========================================================================
-   Understanding Module Descriptors — Course engine
-   Vanilla JS, no dependencies. Works from file:// or any static host.
-   Persists progress, reflections, and quiz results to localStorage.
+   Understanding Module Descriptors — App wiring
+   Navigation, progress, theme, and the interactive widgets.
+   Uses the Course core (js/core.js) for state + events; emits tracking
+   events that SCORM and analytics subscribe to.
    ========================================================================== */
 (function () {
   "use strict";
 
-  var STORE_KEY = "umd-course-v1";
-  var LESSONS = [
-    { id: 0, label: "Welcome & orientation" },
-    { id: 1, label: "What is a module descriptor" },
-    { id: 2, label: "Learning outcomes" },
-    { id: 3, label: "NFQ levels" },
-    { id: 4, label: "ECTS credits & workload" },
-    { id: 5, label: "Bringing it together" },
-    { id: 6, label: "Summary & final quiz" }
-  ];
-
-  /* ---------- persistence ---------- */
-  var state = load();
-  function load() {
-    try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }
-    catch (e) { return {}; }
-  }
-  function save() {
-    try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
-  }
-  state.visited = state.visited || {};
-  state.answers = state.answers || {};
-  state.reflections = state.reflections || {};
-  state.theme = state.theme || "";
-
-  var $ = function (s, c) { return (c || document).querySelector(s); };
-  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+  var C = window.Course;
+  var $ = C.$, $$ = C.$$;
+  var state = C.state;
+  var save = C.save;
+  var emit = C.emit;
+  var anim = C.anim;
+  var LESSONS = C.SECTIONS;
 
   /* ---------- build nav ---------- */
   var navEl = $("#nav");
@@ -53,54 +34,56 @@
   /* ---------- navigation ---------- */
   var lessons = $$(".lesson");
   var current = state.current != null ? state.current : 0;
+  var started = false;
 
   function goTo(i) {
     i = Math.max(0, Math.min(LESSONS.length - 1, i));
+    var prev = current;
+
+    if (!started) { started = true; emit("course.start", {}); }
+    // leaving a viewed section => count it complete
+    if (prev !== i && state.visited[prev]) {
+      if (!state.completedSec[prev]) {
+        state.completedSec[prev] = true;
+        emit("section.complete", { id: prev, label: LESSONS[prev].label });
+      }
+    }
+
     current = i;
     state.current = i;
+    var firstView = !state.visited[i];
     state.visited[i] = true;
+
     lessons.forEach(function (sec) {
       sec.classList.toggle("is-active", +sec.getAttribute("data-lesson") === i);
     });
-    navItems.forEach(function (n, idx) {
-      n.classList.toggle("is-active", idx === i);
-    });
+    navItems.forEach(function (n, idx) { n.classList.toggle("is-active", idx === i); });
     $("#topTitle").textContent = LESSONS[i].label;
     $("#scroll").scrollTop = 0;
     window.scrollTo(0, 0);
+
+    if (anim) anim.revealLesson(lessons[i]);
     updateProgress();
     save();
+    emit("section.view", { id: i, label: LESSONS[i].label, firstView: firstView });
   }
 
+  function countVisited() {
+    return LESSONS.filter(function (l) { return state.visited[l.id]; }).length;
+  }
   function updateProgress() {
-    var done = 0;
-    LESSONS.forEach(function (l) {
-      var isDone = !!state.visited[l.id];
-      // A lesson counts as "done" once visited (and, for the final, completed)
-      navItems[l.id].classList.toggle("is-done", isDone && l.id !== current || (isDone && state.completed && l.id === 6));
-      if (isDone) done++;
-    });
-    // Mark all-but-current visited lessons done
     navItems.forEach(function (n, idx) {
       n.classList.toggle("is-done", !!state.visited[idx] && idx !== current);
     });
     var pct = Math.round((countVisited() / LESSONS.length) * 100);
+    if (anim) anim.countUp($("#progressPct"), pct, { suffix: "%" });
+    else $("#progressPct").textContent = pct + "%";
     $("#progressFill").style.width = pct + "%";
-    $("#progressPct").textContent = pct + "%";
-  }
-  function countVisited() {
-    return LESSONS.filter(function (l) { return state.visited[l.id]; }).length;
   }
 
-  // prev / next buttons
-  $$("[data-next]").forEach(function (b) {
-    b.addEventListener("click", function () { goTo(current + 1); });
-  });
-  $$("[data-prev]").forEach(function (b) {
-    b.addEventListener("click", function () { goTo(current - 1); });
-  });
+  $$("[data-next]").forEach(function (b) { b.addEventListener("click", function () { goTo(current + 1); }); });
+  $$("[data-prev]").forEach(function (b) { b.addEventListener("click", function () { goTo(current - 1); }); });
 
-  // keyboard arrows
   document.addEventListener("keydown", function (e) {
     if (e.target.tagName === "TEXTAREA" || e.target.tagName === "INPUT") return;
     if (e.key === "ArrowRight") goTo(current + 1);
@@ -131,10 +114,10 @@
     root.setAttribute("data-theme", state.theme);
     save();
     syncThemeLabel();
+    emit("interaction.complete", { id: "theme-toggle", value: state.theme });
   }
   ["#themeBtn", "#themeBtnSide"].forEach(function (sel) {
-    var b = $(sel);
-    if (b) b.addEventListener("click", toggleTheme);
+    var b = $(sel); if (b) b.addEventListener("click", toggleTheme);
   });
   syncThemeLabel();
 
@@ -143,11 +126,12 @@
      ========================================================================== */
   $$(".kc[data-type='single']").forEach(function (kc) {
     var id = kc.getAttribute("data-kc");
+    var isFinal = kc.hasAttribute("data-final");
     var opts = $$(".opt", kc);
     var feedback = $(".kc__feedback", kc);
     var retry = $(".kc__retry", kc);
 
-    function lock(chosen) {
+    function lock(chosen, replay) {
       var correctBtn = opts.filter(function (o) { return o.hasAttribute("data-correct"); })[0];
       var isCorrect = chosen.hasAttribute("data-correct");
       opts.forEach(function (o) {
@@ -160,67 +144,77 @@
       feedback.innerHTML = "<strong>" + (isCorrect ? "Correct" : "Not quite") + "</strong>" +
         (isCorrect ? feedback.getAttribute("data-good") : feedback.getAttribute("data-bad"));
       retry.classList.toggle("show", !isCorrect);
+      if (!replay && !isCorrect && !anim.reduce) {          // micro-interaction: shake wrong
+        chosen.classList.remove("shake"); void chosen.offsetWidth; chosen.classList.add("shake");
+      }
       state.answers[id] = { chosen: chosen.getAttribute("data-opt"), correct: isCorrect };
       save();
       updateFinalScore();
+      if (!replay) {
+        emit("knowledge_check.answer", {
+          id: id, final: isFinal, choice: chosen.getAttribute("data-opt"), correct: isCorrect
+        });
+        if (isFinal) maybeQuizComplete();
+      }
     }
 
-    opts.forEach(function (o) {
-      o.addEventListener("click", function () { if (!o.disabled) lock(o); });
-    });
+    opts.forEach(function (o) { o.addEventListener("click", function () { if (!o.disabled) lock(o); }); });
     retry.addEventListener("click", function () {
-      opts.forEach(function (o) {
-        o.disabled = false;
-        o.classList.remove("is-correct", "is-wrong", "is-dim");
-      });
+      opts.forEach(function (o) { o.disabled = false; o.classList.remove("is-correct", "is-wrong", "is-dim"); });
       feedback.className = "kc__feedback";
       retry.classList.remove("show");
       delete state.answers[id];
       save();
       updateFinalScore();
+      emit("knowledge_check.retry", { id: id, final: isFinal });
     });
 
-    // restore
     var saved = state.answers[id];
     if (saved) {
       var btn = opts.filter(function (o) { return o.getAttribute("data-opt") === saved.chosen; })[0];
-      if (btn) lock(btn);
+      if (btn) lock(btn, true);
     }
   });
 
   /* ---------- final quiz score ---------- */
+  var quizAlreadyComplete = false;
   function updateFinalScore() {
-    var finals = ["f1", "f2", "f3", "f4"];
-    var answered = finals.filter(function (f) { return state.answers[f]; });
-    var correct = finals.filter(function (f) { return state.answers[f] && state.answers[f].correct; });
+    var r = C.quizResult();
     var el = $("#finalScore");
     if (!el) return;
-    if (answered.length === 0) {
+    if (r.answered === 0) {
       el.textContent = "Answer the four questions above to see your score.";
     } else {
-      el.innerHTML = "Final quiz score: <b>" + correct.length + " / " + finals.length + "</b>" +
-        (answered.length < finals.length ? " · " + (finals.length - answered.length) + " unanswered" : "");
+      el.innerHTML = "Final quiz score: <b>" + r.correct + " / " + r.total + "</b>" +
+        (r.answered < r.total ? " · " + (r.total - r.answered) + " unanswered"
+                              : (r.passed ? " · passed ✓" : ""));
+    }
+  }
+  function maybeQuizComplete() {
+    var r = C.quizResult();
+    if (r.complete && !quizAlreadyComplete) {
+      quizAlreadyComplete = true;
+      emit("quiz.complete", { correct: r.correct, total: r.total, ratio: r.ratio, passed: r.passed });
     }
   }
 
   /* ==========================================================================
-     Reflections
+     Reflections (private, local only)
      ========================================================================== */
   $$("[data-reflect]").forEach(function (r) {
     var id = r.getAttribute("data-reflect");
     var ta = $("textarea", r);
     var btn = $(".reflect__save", r);
     if (state.reflections[id]) ta.value = state.reflections[id];
-    function persist() {
-      state.reflections[id] = ta.value;
-      save();
-    }
+    function persist() { state.reflections[id] = ta.value; C.saveSoon(); }
     ta.addEventListener("input", persist);
     btn.addEventListener("click", function () {
-      persist();
+      persist(); save();
       var original = btn.textContent;
       btn.textContent = "✓ Saved";
       setTimeout(function () { btn.textContent = original; }, 1400);
+      // emit length only — never the private content
+      emit("reflection.save", { id: id, length: (ta.value || "").trim().length });
     });
   });
 
@@ -232,10 +226,9 @@
     if (!wrap) return;
     var tokens = $$(".token", wrap);
     var drops = $$(".drop", wrap);
-    var selected = null; // for tap mode
+    var selected = null;
 
     function placeToken(token, drop) {
-      // clear any existing token on this drop
       var slot = $(".drop__slot", drop);
       var existing = $(".drop__chip", slot);
       if (existing) {
@@ -260,38 +253,30 @@
       clearScore();
     }
 
-    // desktop drag
     tokens.forEach(function (t) {
       t.addEventListener("dragstart", function (e) {
         t.classList.add("dragging");
         e.dataTransfer.setData("text/plain", t.getAttribute("data-token"));
       });
       t.addEventListener("dragend", function () { t.classList.remove("dragging"); });
-      // tap / click to select
       t.addEventListener("click", function () {
         if (t.classList.contains("placed")) return;
-        if (selected === t) { t.style.outline = ""; selected = null; return; }
-        tokens.forEach(function (x) { x.style.outline = ""; });
-        selected = t;
-        t.style.outline = "2px solid var(--brand)";
+        if (selected === t) { t.classList.remove("selected"); selected = null; return; }
+        tokens.forEach(function (x) { x.classList.remove("selected"); });
+        selected = t; t.classList.add("selected");
       });
     });
     drops.forEach(function (d) {
       d.addEventListener("dragover", function (e) { e.preventDefault(); d.classList.add("over"); });
       d.addEventListener("dragleave", function () { d.classList.remove("over"); });
       d.addEventListener("drop", function (e) {
-        e.preventDefault();
-        d.classList.remove("over");
+        e.preventDefault(); d.classList.remove("over");
         var key = e.dataTransfer.getData("text/plain");
         var token = tokens.filter(function (t) { return t.getAttribute("data-token") === key; })[0];
         if (token) placeToken(token, d);
       });
       d.addEventListener("click", function () {
-        if (selected) {
-          placeToken(selected, d);
-          selected.style.outline = "";
-          selected = null;
-        }
+        if (selected) { placeToken(selected, d); selected.classList.remove("selected"); selected = null; }
       });
     });
 
@@ -305,23 +290,21 @@
         d.classList.remove("correct", "incorrect");
         if (!chip) return;
         filled++;
-        if (chip.getAttribute("data-token") === d.getAttribute("data-accept")) {
-          d.classList.add("correct"); right++;
-        } else {
-          d.classList.add("incorrect");
-        }
+        if (chip.getAttribute("data-token") === d.getAttribute("data-accept")) { d.classList.add("correct"); right++; }
+        else d.classList.add("incorrect");
       });
       if (filled < total) {
         scoreEl.textContent = "Place all six verbs first (" + filled + "/" + total + ")";
-      } else {
-        scoreEl.textContent = right + " / " + total + " correct" + (right === total ? " — perfect!" : "");
+        return;
       }
+      scoreEl.textContent = right + " / " + total + " correct" + (right === total ? " — perfect!" : "");
+      emit("interaction.complete", { id: "bloom-match", score: right, total: total });
+      if (right === total && window.Confetti) window.Confetti.burst(wrap);
     });
     $("[data-reset]", wrap).addEventListener("click", function () {
       drops.forEach(function (d) { $(".drop__slot", d).innerHTML = ""; d.classList.remove("correct", "incorrect"); });
-      tokens.forEach(function (t) { t.classList.remove("placed"); t.style.outline = ""; });
-      selected = null;
-      clearScore();
+      tokens.forEach(function (t) { t.classList.remove("placed", "selected"); });
+      selected = null; clearScore();
     });
   })();
 
@@ -331,21 +314,26 @@
   $$("[data-tabs]").forEach(function (tabs) {
     var btns = $$(".tabs__btn", tabs);
     var panels = $$(".tabs__panel", tabs);
-    btns.forEach(function (b) {
-      b.addEventListener("click", function () {
-        var k = b.getAttribute("data-tab");
-        btns.forEach(function (x) { x.classList.toggle("is-active", x === b); });
-        panels.forEach(function (p) { p.classList.toggle("is-active", p.getAttribute("data-panel") === k); });
-      });
-    });
+    var scrub = $(".tabs__scrub input", tabs);
+    var seen = {};
+    function activate(k, fromScrub) {
+      btns.forEach(function (x) { x.classList.toggle("is-active", x.getAttribute("data-tab") === k); });
+      panels.forEach(function (p) { p.classList.toggle("is-active", p.getAttribute("data-panel") === k); });
+      if (scrub && !fromScrub) scrub.value = k;
+      seen[k] = true;
+      emit("interaction.complete", { id: "nfq-tabs", value: k, seenCount: Object.keys(seen).length });
+    }
+    btns.forEach(function (b) { b.addEventListener("click", function () { activate(b.getAttribute("data-tab")); }); });
+    if (scrub) scrub.addEventListener("input", function () { activate(scrub.value, true); });
   });
 
   /* ==========================================================================
      Accordion
      ========================================================================== */
-  $$("[data-accordion] .acc").forEach(function (acc) {
+  $$("[data-accordion] .acc").forEach(function (acc, idx) {
     $(".acc__head", acc).addEventListener("click", function () {
-      acc.classList.toggle("open");
+      var open = acc.classList.toggle("open");
+      if (open) emit("interaction.complete", { id: "reading-accordion", value: idx + 1 });
     });
   });
 
@@ -356,27 +344,40 @@
     var wrap = $("[data-calc]");
     if (!wrap) return;
     var credits = $("#credits"), hpc = $("#hpc"), contact = $("#contact");
-    function render() {
+    var totalOut = $("#totalOut"), indepOut = $("#indepOut");
+    var splitContact = $("#splitContact"), splitIndep = $("#splitIndep");
+    var used = false;
+    function render(animate) {
       var c = +credits.value, h = +hpc.value, ct = +contact.value;
-      var total = c * h;
-      var indep = total - ct;
+      var total = c * h, indep = total - ct;
       $("#creditsVal").textContent = c;
       $("#hpcVal").textContent = h;
       $("#contactVal").textContent = ct;
-      $("#totalOut").textContent = total;
-      var indepEl = $("#indepOut");
       var note = $("#calcNote");
+      if (animate) anim.countUp(totalOut, total); else totalOut.textContent = total;
+      // animated split bar (contact vs independent)
+      if (splitContact && splitIndep && total > 0) {
+        var cPct = Math.max(0, Math.min(100, (ct / total) * 100));
+        splitContact.style.width = cPct + "%";
+        splitIndep.style.width = (100 - cPct) + "%";
+        splitIndep.classList.toggle("over", indep < 0);
+      }
       if (indep < 0) {
-        indepEl.textContent = "—";
+        indepOut.textContent = "—";
         note.innerHTML = '<span class="calc__warn">Contact hours exceed total effort — check your figures.</span>';
       } else {
-        indepEl.textContent = indep;
+        if (animate) anim.countUp(indepOut, indep); else indepOut.textContent = indep;
         note.innerHTML = c + " credits × " + h + " hours = " + total +
           " total hours, minus " + ct + " contact hours = <strong>" + indep + " hours</strong> on their own.";
       }
     }
-    [credits, hpc, contact].forEach(function (el) { el.addEventListener("input", render); });
-    render();
+    [credits, hpc, contact].forEach(function (el) {
+      el.addEventListener("input", function () {
+        render(true);
+        if (!used) { used = true; emit("interaction.complete", { id: "ects-calc" }); }
+      });
+    });
+    render(false);
   })();
 
   /* ==========================================================================
@@ -387,9 +388,18 @@
     if (state.completed) finishBtn.textContent = "✓ Course completed";
     finishBtn.addEventListener("click", function () {
       state.completed = true;
+      state.completedSec[current] = true;
       finishBtn.textContent = "✓ Course completed";
       save();
       updateProgress();
+      var r = C.quizResult();
+      emit("course.complete", {
+        allVisited: C.allSectionsVisited(),
+        quiz: { correct: r.correct, total: r.total, ratio: r.ratio, passed: r.passed }
+      });
+      var comp = $(".complete");
+      if (comp) anim.pulse($(".complete__badge", comp));
+      if (window.Confetti) window.Confetti.burst(finishBtn);
     });
   }
   var restartBtn = $("#restartBtn");
