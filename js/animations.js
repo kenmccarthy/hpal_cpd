@@ -14,7 +14,7 @@
   var REVEAL_SELECTOR = [
     ".cover", ".statement", ".card", ".callout", ".figure", ".kc",
     ".reflect", ".match", ".tabs", ".calc", ".accordion", ".deflist",
-    ".complete", ".lesson > h2"
+    ".complete", ".widget", ".lesson > h2"
   ].join(",");
 
   /* One IntersectionObserver reused across lessons. */

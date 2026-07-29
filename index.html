@@ -629,7 +629,30 @@
               <div class="calc__lbl">Expected independent study (hours)</div>
             </div>
           </div>
+          <div class="split" id="ectsSplit" role="img" aria-label="How total effort splits between contact time and independent study">
+            <div class="split__seg split__seg--contact" id="splitContact"><span>Contact</span></div>
+            <div class="split__seg split__seg--indep" id="splitIndep"><span>Independent study</span></div>
+          </div>
           <p class="calc__note" id="calcNote">5 credits × 20 hours = 100 total hours, minus 24 contact hours = 76 hours on their own.</p>
+        </div>
+
+        <!-- Workload budget — applied exercise -->
+        <div class="widget budget" data-budget>
+          <div class="kc__tag">🧩 Try it · Build an assessment plan</div>
+          <p style="color:var(--ink-soft);margin-top:0">You're teaching a <strong>5-credit module</strong> (100 hours total, 24 contact). That leaves an <strong>independent-study budget of 76 hours</strong>. Toggle assessment tasks on and off and watch the budget — keep the total realistic.</p>
+          <div class="budget__grid">
+            <button class="budget__item" type="button" data-hours="15">2,000-word essay <b>15h</b></button>
+            <button class="budget__item" type="button" data-hours="12">Weekly quizzes ×12 <b>12h</b></button>
+            <button class="budget__item" type="button" data-hours="20">Group project <b>20h</b></button>
+            <button class="budget__item" type="button" data-hours="25">Set reading &amp; prep <b>25h</b></button>
+            <button class="budget__item" type="button" data-hours="18">Exam revision <b>18h</b></button>
+            <button class="budget__item" type="button" data-hours="10">Reflective journal <b>10h</b></button>
+          </div>
+          <div class="budget__bar" aria-hidden="true"><div class="budget__fill" id="budgetFill"></div></div>
+          <div class="budget__readout">
+            <span id="budgetUsed">0 h</span> of <span>76 h</span> used
+            <span class="budget__status" id="budgetStatus"></span>
+          </div>
         </div>
 
         <h2>Why this matters for you as a teacher</h2>
@@ -747,6 +770,22 @@
           <div class="callout__icon">✅</div>
           <div class="callout__body">
             <p>If you can answer all four with confidence, you're not just complying with a quality assurance requirement — you're teaching in a way that gives your students the best chance of success, and makes the most of the deep expertise you bring from industry.</p>
+          </div>
+        </div>
+
+        <!-- Readiness checklist -->
+        <div class="widget readiness" data-readiness>
+          <div class="kc__tag">🎯 Your descriptor-readiness</div>
+          <p style="color:var(--ink-soft);margin-top:0">Tick the ones you could confidently do right now for a module you teach.</p>
+          <div class="readiness__grid">
+            <label class="check"><input type="checkbox"> <span>Read the outcome verbs and name their Bloom's level</span></label>
+            <label class="check"><input type="checkbox"> <span>Show my teaching builds toward those outcomes</span></label>
+            <label class="check"><input type="checkbox"> <span>Pitch tasks to the module's NFQ level</span></label>
+            <label class="check"><input type="checkbox"> <span>Check assessment load fits the ECTS hours</span></label>
+          </div>
+          <div class="readiness__meter">
+            <div class="readiness__ring" id="readyRing"><span id="readyScore">0/4</span></div>
+            <p class="readiness__msg" id="readyMsg">Tick what you're confident about to see your readiness.</p>
           </div>
         </div>
 
@@ -890,6 +929,7 @@
 <script src="js/core.js"></script>
 <script src="js/animations.js"></script>
 <script src="js/confetti.js"></script>
+<script src="js/interactions.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

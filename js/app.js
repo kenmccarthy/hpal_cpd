@@ -344,6 +344,7 @@
     if (!wrap) return;
     var credits = $("#credits"), hpc = $("#hpc"), contact = $("#contact");
     var totalOut = $("#totalOut"), indepOut = $("#indepOut");
+    var splitContact = $("#splitContact"), splitIndep = $("#splitIndep");
     var used = false;
     function render(animate) {
       var c = +credits.value, h = +hpc.value, ct = +contact.value;
@@ -353,6 +354,13 @@
       $("#contactVal").textContent = ct;
       var note = $("#calcNote");
       if (animate) anim.countUp(totalOut, total); else totalOut.textContent = total;
+      // animated split bar (contact vs independent)
+      if (splitContact && splitIndep && total > 0) {
+        var cPct = Math.max(0, Math.min(100, (ct / total) * 100));
+        splitContact.style.width = cPct + "%";
+        splitIndep.style.width = (100 - cPct) + "%";
+        splitIndep.classList.toggle("over", indep < 0);
+      }
       if (indep < 0) {
         indepOut.textContent = "—";
         note.innerHTML = '<span class="calc__warn">Contact hours exceed total effort — check your figures.</span>';
