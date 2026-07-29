@@ -314,16 +314,17 @@
   $$("[data-tabs]").forEach(function (tabs) {
     var btns = $$(".tabs__btn", tabs);
     var panels = $$(".tabs__panel", tabs);
+    var scrub = $(".tabs__scrub input", tabs);
     var seen = {};
-    btns.forEach(function (b) {
-      b.addEventListener("click", function () {
-        var k = b.getAttribute("data-tab");
-        btns.forEach(function (x) { x.classList.toggle("is-active", x === b); });
-        panels.forEach(function (p) { p.classList.toggle("is-active", p.getAttribute("data-panel") === k); });
-        seen[k] = true;
-        emit("interaction.complete", { id: "nfq-tabs", value: k, seenCount: Object.keys(seen).length });
-      });
-    });
+    function activate(k, fromScrub) {
+      btns.forEach(function (x) { x.classList.toggle("is-active", x.getAttribute("data-tab") === k); });
+      panels.forEach(function (p) { p.classList.toggle("is-active", p.getAttribute("data-panel") === k); });
+      if (scrub && !fromScrub) scrub.value = k;
+      seen[k] = true;
+      emit("interaction.complete", { id: "nfq-tabs", value: k, seenCount: Object.keys(seen).length });
+    }
+    btns.forEach(function (b) { b.addEventListener("click", function () { activate(b.getAttribute("data-tab")); }); });
+    if (scrub) scrub.addEventListener("input", function () { activate(scrub.value, true); });
   });
 
   /* ==========================================================================
