@@ -44,20 +44,73 @@ limited HE/quality-assurance background.
 | 6 | Summary, final quiz & reflection |
 
 ### Interactions (all native, no libraries)
-- **Knowledge checks** — MCQ and true/false with instant, per-answer feedback and retry
-- **Reflections** — open text prompts (saved locally, never submitted)
-- **Bloom's matching** — drag-and-drop *and* tap-to-place
-- **NFQ tabs** — Levels 6–9 with example tasks
-- **ECTS workload calculator** — live sliders for credits, hours/credit, contact hours
-- **Accordion** — the four "reading a descriptor" questions with practical tips
-- **Custom SVG graphics** — annotated descriptor, Bloom's pyramid, alignment triangle, NFQ ladder
+- **Knowledge checks** — MCQ and true/false with instant feedback, retry, shake-on-wrong / tick-on-correct
+- **Reflections** — open text prompts (saved locally, never submitted) with an **export-to-file** option
+- **Descriptor explorer** (§1) — click each part to reveal what it tells you
+- **Build a learning outcome** (§2) — verb + object + standard → a sample outcome with its Bloom's level
+- **Alignment checker** (§2) — set outcome/teaching/assessment levels for a live aligned/misaligned verdict
+- **Bloom's matching** (§2) — drag-and-drop *and* tap-to-place, with confetti on a perfect score
+- **NFQ tabs + scrubber** (§3) — Levels 6–9 via tabs or a slider
+- **Pitch check** (§3) — match tasks to their NFQ level
+- **ECTS calculator** (§4) — live sliders with an animated contact-vs-independent split bar
+- **Workload budget** (§4) — toggle assessment tasks against a 76-hour budget; bar turns red when over
+- **Readiness checklist** (§5) — a conic-gradient readiness ring
+- **Results dashboard** (§6) — live tiles for sections, quiz score and activities explored
+- **Self-building SVG graphics** — annotated descriptor, Bloom's pyramid, alignment triangle, NFQ ladder
 
 ### Learner experience
 - Left-hand lesson navigation with live **progress bar** and completed ticks
+- **Scroll-reveal** entrances, **count-ups**, and **micro-interactions** — all disabled under `prefers-reduced-motion`
 - Previous / Next buttons and **←/→ keyboard** navigation
-- Progress, quiz answers and reflection notes **persist** in `localStorage`
+- Progress, quiz answers, activities and reflection notes **persist** in `localStorage`
 - **Light / dark** theme (follows the OS, with a manual toggle)
 - Fully **responsive** with a slide-out menu on mobile
+
+## SCORM 1.2 packaging
+
+The course ships ready to package for an LMS. A single **SCO** (`index.html`) and
+an `imsmanifest.xml` are included; `js/scorm.js` maps the course onto the SCORM
+1.2 data model. It is a **no-op when no LMS is present**, so the same files still
+run standalone from `file://`.
+
+**Build the uploadable zip:**
+
+```bash
+python3 scripts/build_scorm.py
+# -> dist/understanding-module-descriptors-scorm12.zip  (manifest at the root)
+```
+
+Upload that zip to your LMS, or to <https://cloud.scorm.com> to validate.
+
+**What it reports**
+
+| SCORM (CMI) field | Meaning |
+|---|---|
+| `cmi.core.lesson_status` | `passed` (final quiz ≥ 75%), `failed` (below), or `completed` (finished, quiz not fully attempted) |
+| `cmi.core.score.raw` | Final-quiz percentage (min 0, max 100; mastery score 75) |
+| `cmi.core.lesson_location` | Bookmark — the section the learner was on |
+| `cmi.suspend_data` | Compact resume state (visited sections, answers, activities). Kept **well under the SCORM 1.2 ~4 KB cap**; reflections are **excluded** (private, and local only) |
+| `cmi.core.session_time` | Time on task |
+| `cmi.interactions.n` | One entry per knowledge-check answer — see *Analytics* |
+
+**Test the adapter offline:** append `?scorm=mock` to the URL to inject a mock
+LMS that logs every SCORM call to an in-memory store (used by the automated tests).
+
+## Analytics
+
+Per the chosen design, the **LMS is the analytics store**: every knowledge-check
+answer is written as a `cmi.interactions.n` entry, so completion, scores and
+per-question results appear in the LMS's own reporting — no third-party scripts,
+no external calls, and nothing that breaks the standalone/offline property.
+
+- **Event bus** — all interactions emit typed events through `js/core.js`
+  (`section.view`, `knowledge_check.answer`, `interaction.complete`,
+  `quiz.complete`, `course.complete`, …). SCORM and analytics subscribe to these.
+- **Dev event inspector** — append `?debug=1` to see a live on-screen log of
+  every event (and whether an LMS is connected).
+- **Optional self-hosted sink** — for non-LMS hosting, set
+  `Course.analytics.endpoint = "https://…"` to POST events via `sendBeacon`.
+  Disabled by default.
 
 ## Running it
 
@@ -80,14 +133,28 @@ an LMS file area, a shared drive, etc.).
 ```
 .
 ├── index.html                 # all course content + interactive markup
-├── css/styles.css             # SETU design tokens, layout, components, light/dark
-├── js/app.js                  # navigation, progress, and all interactions
+├── imsmanifest.xml            # SCORM 1.2 package manifest (single SCO)
+├── css/styles.css             # SETU design tokens, layout, components, animations
+├── js/
+│   ├── core.js                # config, state store, and the event bus (foundation)
+│   ├── scorm.js               # SCORM 1.2 adapter (+ ?scorm=mock test harness)
+│   ├── analytics.js           # dev event inspector + optional endpoint sink
+│   ├── animations.js          # scroll-reveal, count-ups, self-building diagrams
+│   ├── confetti.js            # brand-coloured canvas confetti
+│   ├── interactions.js        # builder, alignment, pitch, budget, readiness, anatomy
+│   ├── dashboard.js           # results dashboard + export-my-notes
+│   └── app.js                 # navigation, progress, theme, core widgets
+├── scripts/build_scorm.py     # builds dist/…-scorm12.zip
 └── assets/
     ├── MONO_WHITE.png         # official SETU reversed (white) logo — used in the UI
     ├── MONO_BLACK.png         # official SETU mono-black logo (for light backgrounds)
     ├── RGB.png                # official SETU full-colour logo
     └── fonts/                 # self-hosted DM Sans + Inter (variable WOFF2)
 ```
+
+Load order in `index.html`: `core → scorm → analytics → animations → confetti →
+interactions → dashboard → app`. `scorm.js` runs early so it can restore
+`suspend_data` into the shared state before the widgets read it.
 
 ## Logos
 
