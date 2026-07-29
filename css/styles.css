@@ -576,6 +576,81 @@ button { font-family: inherit; }
   .cover__img { aspect-ratio: auto; min-height: 240px; padding: 64px 22px 24px; }
   .cover__badge { top: 20px; left: 22px; right: 22px; font-size: 10px; letter-spacing: .07em; }
 }
+/* ==========================================================================
+   Animation layer (Phase 1) — all gated behind prefers-reduced-motion
+   ========================================================================== */
+
+/* Scroll-reveal: JS adds .reveal, then .is-in when the block enters view.
+   No-JS and reduced-motion users see everything immediately. */
+.reveal { opacity: 0; transform: translateY(14px); }
+.reveal.is-in {
+  opacity: 1; transform: none;
+  transition: opacity .55s cubic-bezier(.22,.61,.36,1) var(--rd, 0ms),
+              transform .55s cubic-bezier(.22,.61,.36,1) var(--rd, 0ms);
+}
+
+/* Attention pulse (progress / completion badge) */
+@keyframes pulse-kf { 0%{transform:scale(1)} 35%{transform:scale(1.14)} 100%{transform:scale(1)} }
+.pulse { animation: pulse-kf .5s ease; }
+
+/* Shake on a wrong answer */
+@keyframes shake-kf {
+  10%,90%{transform:translateX(-1px)} 20%,80%{transform:translateX(2px)}
+  30%,50%,70%{transform:translateX(-4px)} 40%,60%{transform:translateX(4px)}
+}
+.opt.shake { animation: shake-kf .5s cubic-bezier(.36,.07,.19,.97) both; }
+
+/* Correct-answer tick draw-in */
+@keyframes tick-pop { 0%{transform:scale(0)} 60%{transform:scale(1.25)} 100%{transform:scale(1)} }
+.opt.is-correct .opt__mark::after { display: inline-block; animation: tick-pop .35s ease both; }
+
+/* Matching: selected token (tap mode) */
+.token.selected { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+/* ---- Self-building SVG diagrams (play once when the figure reveals) ---- */
+@keyframes fig-rise  { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes fig-grow  { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes fig-slide { from { opacity: 0; transform: translateX(-16px); } to { opacity: 1; transform: none; } }
+@keyframes fig-fade  { from { opacity: 0; } to { opacity: 1; } }
+
+/* Bloom pyramid — tiers rise from the base up */
+.fig-pyramid.is-in polygon { animation: fig-rise .5s both; }
+.fig-pyramid.is-in polygon:nth-of-type(1) { animation-delay: .05s; }
+.fig-pyramid.is-in polygon:nth-of-type(2) { animation-delay: .16s; }
+.fig-pyramid.is-in polygon:nth-of-type(3) { animation-delay: .27s; }
+.fig-pyramid.is-in polygon:nth-of-type(4) { animation-delay: .38s; }
+.fig-pyramid.is-in polygon:nth-of-type(5) { animation-delay: .49s; }
+.fig-pyramid.is-in polygon:nth-of-type(6) { animation-delay: .60s; }
+.fig-pyramid.is-in text { animation: fig-fade .5s both .5s; }
+
+/* NFQ ladder — bars grow up from the floor */
+.fig-ladder.is-in rect { transform-box: fill-box; transform-origin: bottom; animation: fig-grow .5s both; }
+.fig-ladder.is-in rect:nth-of-type(1){animation-delay:.04s} .fig-ladder.is-in rect:nth-of-type(2){animation-delay:.10s}
+.fig-ladder.is-in rect:nth-of-type(3){animation-delay:.16s} .fig-ladder.is-in rect:nth-of-type(4){animation-delay:.22s}
+.fig-ladder.is-in rect:nth-of-type(5){animation-delay:.28s} .fig-ladder.is-in rect:nth-of-type(6){animation-delay:.34s}
+.fig-ladder.is-in rect:nth-of-type(7){animation-delay:.40s} .fig-ladder.is-in rect:nth-of-type(8){animation-delay:.46s}
+.fig-ladder.is-in rect:nth-of-type(9){animation-delay:.52s} .fig-ladder.is-in rect:nth-of-type(10){animation-delay:.58s}
+.fig-ladder.is-in text { animation: fig-fade .5s both .5s; }
+
+/* Constructive-alignment triangle — nodes pop, then arrows fade in */
+.fig-triangle.is-in .al-node { transform-box: fill-box; transform-origin: center; animation: fig-rise .45s both; }
+.fig-triangle.is-in g:nth-of-type(1) .al-node { animation-delay: .05s; }
+.fig-triangle.is-in g:nth-of-type(2) .al-node { animation-delay: .18s; }
+.fig-triangle.is-in g:nth-of-type(3) .al-node { animation-delay: .31s; }
+.fig-triangle.is-in .al-arrow { animation: fig-fade .5s both .5s; }
+
+/* Outcome formula — boxes slide in from the left in sequence */
+.fig-formula.is-in rect { animation: fig-slide .45s both; }
+.fig-formula.is-in rect:nth-of-type(1){animation-delay:.05s}
+.fig-formula.is-in rect:nth-of-type(2){animation-delay:.20s}
+.fig-formula.is-in rect:nth-of-type(3){animation-delay:.35s}
+.fig-formula.is-in .plus { animation: fig-fade .4s both .45s; }
+
+/* Annotated descriptor — callout lines and labels fade in after the doc */
+.fig-descriptor.is-in .call, .fig-descriptor.is-in .call-a,
+.fig-descriptor.is-in .lbl, .fig-descriptor.is-in .lbl-a { animation: fig-fade .5s both .35s; }
+
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
 }
