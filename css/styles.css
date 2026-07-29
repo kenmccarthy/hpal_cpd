@@ -707,6 +707,18 @@ button { font-family: inherit; }
 .pitch__fb.good { color: var(--ok-ink); }
 .pitch__fb.bad { color: var(--err-ink); }
 
+/* Results dashboard (§6) */
+.dashboard__tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 4px 0 16px; }
+.dash-tile { background: var(--accent-tint); border-radius: var(--radius-sm); padding: 18px 16px; text-align: center; }
+.dash-num { font-family: var(--font-head); font-size: 30px; font-weight: 700; color: var(--accent-ink); line-height: 1; }
+.dash-lbl { font-size: 12.5px; color: var(--ink-soft); margin-top: 6px; font-weight: 600; }
+.dashboard__status { font-size: 15px; color: var(--ink-soft); padding: 12px 0; }
+.dashboard__status.is-pass { color: var(--ok-ink); font-weight: 600; }
+.dashboard__status.is-warn { color: var(--err-ink); }
+.dashboard__actions { margin-top: 8px; }
+
+@media (max-width: 620px) { .dashboard__tiles { grid-template-columns: 1fr; } }
+
 /* NFQ scrubber */
 .tabs__scrub { margin-bottom: 14px; }
 .tabs__scrub input { width: 100%; accent-color: var(--accent); height: 6px; }

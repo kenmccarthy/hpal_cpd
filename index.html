@@ -993,6 +993,20 @@
         </ul>
         <p class="placeholder-note">[Add live hyperlinks to your institution's copies of these documents before publishing.]</p>
 
+        <!-- Progress dashboard -->
+        <div class="widget dashboard" data-dashboard>
+          <div class="kc__tag">📊 Your progress summary</div>
+          <div class="dashboard__tiles">
+            <div class="dash-tile"><div class="dash-num" id="dashSections">0/7</div><div class="dash-lbl">Sections viewed</div></div>
+            <div class="dash-tile"><div class="dash-num" id="dashQuiz">0/4</div><div class="dash-lbl">Final quiz</div></div>
+            <div class="dash-tile"><div class="dash-num" id="dashActs">0/8</div><div class="dash-lbl">Activities explored</div></div>
+          </div>
+          <div class="dashboard__status" id="dashStatus"></div>
+          <div class="dashboard__actions">
+            <button class="btn btn--sm" id="exportNotes" type="button">⬇ Export my reflection notes</button>
+          </div>
+        </div>
+
         <!-- Completion -->
         <div class="complete">
           <svg class="u-watermark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg>
@@ -1019,6 +1033,7 @@
 <script src="js/animations.js"></script>
 <script src="js/confetti.js"></script>
 <script src="js/interactions.js"></script>
+<script src="js/dashboard.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
